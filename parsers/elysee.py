@@ -10,7 +10,7 @@ class ElyseeParser(BaseParser):
     domains = ['wwww.elysee.fr/']
 
     feeder_pages = ['http://www.elysee.fr/toutes-les-actualites/']
-    feeder_pat  = '^http://www.elysee.fr[a-zA-Z-]+/article/[a-zA-Z0-9-]+/$'
+    feeder_pat  = '^http://www.elysee.fr/[a-zA-Z-]+/article/[a-zA-Z0-9-]+/$'
 
     def _parse(self, html):
         soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES, fromEncoding='utf-8')
