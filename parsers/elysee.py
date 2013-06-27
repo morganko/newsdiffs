@@ -1,8 +1,10 @@
 from baseparser import BaseParser
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
+import re
 
 DATE_FORMAT = '%B %d, %Y at %l:%M%P EDT'
+MONTH = {'Janvier':1,u'F\xe9vrier':2,'Mars':3,'Avril':4,'Mai':4,'Juin':6,'Juillet':7,u'Ao\xfbt':8,'Septembre':9,'Octobre':10,'Novembre':11,u'D\xe9cembre':12}
 
 class ElyseeParser(BaseParser):
     domains = ['wwww.elysee.fr/']
@@ -14,7 +16,7 @@ class ElyseeParser(BaseParser):
         soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES, fromEncoding='utf-8')
 
         try:
-            p_tags = soup.find('div', attrs={'class':'desc post-content'}).findAll('p')
+           p_tags = soup.find('div', attrs={'id':re.compile(r"^listen-content-[0-9]+$")}).findAll('p')
         except AttributeError:
             self.real_article = False
             return
@@ -27,23 +29,12 @@ class ElyseeParser(BaseParser):
 
         self.title = soup.find('meta', attrs={'property':'og:title'}).get('content')
 
-#        author = soup.find('meta', attrs={'name':'author'}).get('content')
-#        print(author)
-        author = ''       
+        author = soup.find('meta', attrs={'name':'author'}).get('content')
         
-        if author:
-            self.byline = author.getText()
-        else:
-            self.byline = ''
-
-        datestr = soup.find('p', attrs={'class':'date'})#.get_text()
-        
-        print(datestr)
-#        new_dt = datestr[:10]
-#        datet = datetime.strptime(new_dt, '%Y-%m-%dT%H:%M:%S')
-#        self.date = datet.strftime(DATE_FORMAT)
-
-        self.date = "2006/11/03"
-        
-
+        self.byline = author
+        datestr = soup.find('p', attrs={'class':'date'}).getText()
+        tmp=datestr.split(' ')
+        new_dt=str(tmp[4])+'-'+str(MONTH[tmp[3]])+'-'+str(tmp[2])
+        datet = datetime.strptime(new_dt, '%Y-%m-%d')
+        self.date = datet.strftime(DATE_FORMAT)
 
