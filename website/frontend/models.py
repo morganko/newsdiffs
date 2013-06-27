@@ -20,6 +20,7 @@ def strip_prefix(string, prefix):
 PublicationDict = {'www.lemonde.fr': 'LeMonde',
                    'www.liberation.fr': 'Liberation',
                    'www.lefigaro.fr': 'LeFigaro',
+                   'www.elysee.fr' : 'Elysee',
                    }
 
 ancient = datetime(1901, 1, 1)
