@@ -7,7 +7,7 @@ DATE_FORMAT = '%B %d, %Y at %l:%M%P EDT'
 MONTH = {'Janvier':1,u'F\xe9vrier':2,'Mars':3,'Avril':4,'Mai':4,'Juin':6,'Juillet':7,u'Ao\xfbt':8,'Septembre':9,'Octobre':10,'Novembre':11,u'D\xe9cembre':12}
 
 class ElyseeParser(BaseParser):
-    domains = ['wwww.elysee.fr/']
+    domains = ['wwww.elysee.fr']
 
     feeder_pages = ['http://www.elysee.fr/toutes-les-actualites/']
     feeder_pat  = '^http://www.elysee.fr/[a-zA-Z-]+/article/[a-zA-Z0-9-]+/$'
