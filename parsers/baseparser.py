@@ -83,10 +83,15 @@ def parse_double_utf8(txt):
 def canonicalize(text):
     return strip_whitespace(parse_double_utf8(text))
 
+def concat(domain, url):
+    return domain+url if url.startswith('/') else domain+'/'+url
+
 # End utility functions
 
 # Base Parser
 # To create a new parser, subclass and define _parse(html).
+
+
 class BaseParser(object):
     url = None
     domains = [] # List of domains this should parse
@@ -143,10 +148,10 @@ class BaseParser(object):
 
             # "or ''" to make None into str
             urls = [a.get('href') or '' for a in soup.findAll('a')]
-
+            
             # If no http://, prepend domain name
             domain = '/'.join(feeder_url.split('/')[:3])
-            urls = [url if '://' in url else domain + url for url in urls]
+            urls = [url if '://' in url else concat(domain, url) for url in urls]
 
             all_urls = all_urls + [url for url in urls if
                                    re.search(cls.feeder_pat, url)]
