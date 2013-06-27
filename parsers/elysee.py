@@ -5,7 +5,7 @@ from datetime import datetime
 DATE_FORMAT = '%B %d, %Y at %l:%M%P EDT'
 
 class ElyseeParser(BaseParser):
-    domains = ['wwww.elysee.fr']
+    domains = ['wwww.elysee.fr/']
 
     feeder_pages = ['http://www.elysee.fr/toutes-les-actualites/']
     feeder_pat  = '^http://www.elysee.fr[a-zA-Z-]+/article/[a-zA-Z0-9-]+/$'
@@ -28,13 +28,17 @@ class ElyseeParser(BaseParser):
         self.title = soup.find('meta', attrs={'property':'og:title'}).get('content')
 
 #        author = soup.find('meta', attrs={'name':'author'}).get('content')
+#        print(author)
         author = ''       
+        
         if author:
             self.byline = author.getText()
         else:
             self.byline = ''
 
-#        datestr = soup.find('p', attrs={'class':'date'}).get('datetime')
+        datestr = soup.find('p', attrs={'class':'date'})#.get_text()
+        
+        print(datestr)
 #        new_dt = datestr[:10]
 #        datet = datetime.strptime(new_dt, '%Y-%m-%dT%H:%M:%S')
 #        self.date = datet.strftime(DATE_FORMAT)
